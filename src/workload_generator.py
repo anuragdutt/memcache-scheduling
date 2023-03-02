@@ -31,7 +31,7 @@ if __name__ == "__main__":
 		count += 1
 		total_size += value_size
 
-	# print(count, total_size)
+	print(count, total_size)
 
 
 	p = 0.006
