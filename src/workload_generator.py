@@ -1,36 +1,59 @@
-from pymemcache.client.base import Client
+import os
+import sys
+import random
 import numpy as np
-
+import pickle
 
 if __name__ == "__main__":
 
-	np.seed(12345)
-	mc = Client('localhost:11211')  # Replace with your Memcached server's address
-
-	# Geometric distribution for the keys
-	key_probs = np.power(2, -np.arange(20))
-	key_probs /= np.sum(key_probs)
-
-	# Uniform distribution for the values
+	# Define the range for the uniform distribution
 	min_value_size = 10240  # 10 KB
 	max_value_size = 10485760  # 10 MB
+	random.seed(12345)
+	np.random.seed(12345)
+	# Define the probability parameter for the geometric distribution
 
+
+	# Create the dictionary with integer keys
+	hmap = {}
+
+	# Data creation for 8GB
+	max_dict_size = 8 * 1024 * 1024 * 1024
 	total_size = 0
-	while total_size < 8 * 1024 * 1024 * 1024:  # 8 GB
-		# Generate a key with geometric distribution
-		key = np.random.choice(np.arange(20), p=key_probs)
-		key = f'key_{key}'
 
-		# Generate a value with uniform distribution
+	count = 1
+	while total_size <= max_dict_size :  # 8 GB
+		# get a random byte size
 		value_size = np.random.randint(min_value_size, max_value_size)
-		value = np.random.bytes(value_size)
+		# get an integer corresponding to a 
+		value = random.getrandbits(value_size)
+		hmap[count] = value
+		count += 1
+		total_size += value_size
 
-		print(key,value)
+	# print(count, total_size)
 
-		# Execute the query and update the total size
-		mc.set(key, value)
-		total_size += len(value)
 
-		# Print progress every 1000 iterations
-		if total_size % 1000 == 0:
-			print(f'Total size: {total_size / (1024 * 1024)} MB')
+	p = 0.006
+	call_list = []
+	for i in range(100000):
+		repeat = 1
+		while repeat == 1:
+			call_key = int(random.expovariate(p))
+			if call_key <= count:
+				repeat = 0
+		call_list.append(call_key)
+
+	print("Dumping the memcache hashmap")
+	with open('/home/pace-admin/memcache-scheduling/data/memcache_hashmap.pkl', 'wb') as dict_file:
+    	# Serialize the dictionary using pickle.dump()
+		pickle.dump(hmap, dict_file)
+
+	dict_file.close()
+
+	print("Dumping the geometric call list")
+	with open('/home/pace-admin/memcache-scheduling/data/call_list.pkl', 'wb') as call_file:
+    	# Serialize the dictionary using pickle.dump()
+		pickle.dump(call_list, call_file)
+
+	call_file.close()
