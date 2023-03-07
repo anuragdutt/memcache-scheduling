@@ -11,24 +11,40 @@ import signal
 import random
 
 def signal_handler(sig, frame):
-    print("Interrupted by user, shutting down...")
-    sys.exit(0)
+	print("Interrupted by user, shutting down...")
+	sys.exit(0)
 
 def get_from_memcached(key):
 	
-	servers = [
-		'130.245.127.175:11211',
-		'130.245.127.208:11211'
-	]
-	client = HashClient(servers, connect_timeout = 100, timeout = 100, no_delay=True)
-	start_time = time.monotonic()
-	value = client.get(key)
-	end_time = time.monotonic()
-	elapsed_time = end_time - start_time
-	client.close()
-	file_size = call_size[key]
-	time.sleep(0.5)
+	# Define three Memcached servers with different ports
+	server1 = '130.245.127.153:11211'
+	server2 = '130.245.127.132:11211'
 
+	# client = HashClient(servers, connect_timeout = 100, timeout = 100, no_delay=True)
+	if key in c1:
+		client1 = Client(server1, connect_timeout=5, timeout=5, no_delay = True)
+		start_time = time.monotonic()
+		value = client1.get(key)
+		end_time = time.monotonic()
+		elapsed_time = end_time - start_time
+		client1.close()
+		file_size = call_size[key]
+		time.sleep(0.5)
+	elif key in c2:
+		client2 = Client(server2, connect_timeout=5, timeout=5, no_delay = True)
+		start_time = time.monotonic()
+		value = client2.get(key)
+		end_time = time.monotonic()
+		elapsed_time = end_time - start_time
+		client2.close()
+		file_size = call_size[key]
+		time.sleep(0.5)
+	else:
+		print("Key not found. You are in trouble.")
+		value = None
+		elapsed_time = None
+		file_size = None
+		
 	return value, elapsed_time, file_size
 
 
@@ -42,14 +58,14 @@ if __name__ == "__main__":
 		all_calls = pickle.load(file)
 	file.close()
 
-    with open('/home/pace-admin/memcache-scheduling/data/call_list_main.pkl', 'rb') as file:
+	with open('/home/pace-admin/memcache-scheduling/data/client1_call_list.pkl', 'rb') as file:
 		# Deserialize the dictionary using pickle.load()
-		all_calls = pickle.load(file)
+		c1 = pickle.load(file)
 	file.close()
 
-    with open('/home/pace-admin/memcache-scheduling/data/call_list_main.pkl', 'rb') as file:
+	with open('/home/pace-admin/memcache-scheduling/data/client2_call_list.pkl', 'rb') as file:
 		# Deserialize the dictionary using pickle.load()
-		all_calls = pickle.load(file)
+		c2 = pickle.load(file)
 	file.close()
 
 	with open('/home/pace-admin/memcache-scheduling/data/memcache_hashmap_size.pkl', 'rb') as file:

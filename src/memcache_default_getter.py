@@ -97,4 +97,4 @@ if __name__ == "__main__":
 		with open(fn, 'wb') as timing_file:
     		# Serialize the dictionary using pickle.dump()
 			pickle.dump(timing_list, timing_file)
-		fn.close()
+		timing_file.close()
