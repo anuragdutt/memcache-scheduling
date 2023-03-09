@@ -42,7 +42,7 @@ if __name__ == "__main__":
 		call_size = pickle.load(file)
 	file.close()
 
-	max_samples = 1
+	max_samples = 10
 
 	for s in range(max_samples):
 		label = s + 1
@@ -54,7 +54,7 @@ if __name__ == "__main__":
 
 
 
-		max_threads = min(20, len(calls_sample))
+		max_threads = min(10, len(calls_sample))
 
 		timing_list = []
 		values = []
