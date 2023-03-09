@@ -143,4 +143,4 @@ if __name__ == "__main__":
 						's3_time': s3_time, 's3_value': s3_value, 
 						's4_time': s4_time, 's4_value': s4_value})
 
-	df.to_csv("/home/pace-admin/memcache-scheduling/results/baseline_test_single_test_c1_hashclient.csv", index=False)
+	df.to_csv("/home/pace-admin/memcache-scheduling/results/baseline_test_single_test_c2_hashclient.csv", index=False)
