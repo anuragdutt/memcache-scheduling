@@ -68,7 +68,7 @@ if __name__ == "__main__":
 		c2 = pickle.load(file)
 	file.close()
 
-	max_samples = 10
+	max_samples = 1
 
 	for s in range(max_samples):
 		label = s + 1
