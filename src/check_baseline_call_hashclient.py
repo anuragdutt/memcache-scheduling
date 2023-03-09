@@ -17,11 +17,11 @@ def signal_handler(sig, frame):
 def get_from_memcached_s1(key):
 	
 	# Define three Memcached servers with different ports
-	server = '130.245.127.175:11211'
+	server = ['130.245.127.175:11211']
 
 
 	# client = HashClient(servers, connect_timeout = 100, timeout = 100, no_delay=True)
-	client = Client(server, connect_timeout=5, timeout=5, no_delay = True)
+	client = HashClient(server, connect_timeout=5, timeout=5, no_delay = True)
 	start_time = time.monotonic()
 	value = client.get(key)
 	end_time = time.monotonic()
@@ -35,10 +35,10 @@ def get_from_memcached_s1(key):
 def get_from_memcached_s2(key):
 	
 	# Define three Memcached servers with different ports
-	server = '130.245.127.208:11211'
+	server = ['130.245.127.208:11211']
 
 	# client = HashClient(servers, connect_timeout = 100, timeout = 100, no_delay=True)
-	client = Client(server, connect_timeout=5, timeout=5, no_delay = True)
+	client = HashClient(server, connect_timeout=5, timeout=5, no_delay = True)
 	start_time = time.monotonic()
 	value = client.get(key)
 	end_time = time.monotonic()
@@ -51,11 +51,11 @@ def get_from_memcached_s2(key):
 def get_from_memcached_s3(key):
 	
 	# Define three Memcached servers with different ports
-	server = '130.245.127.153:11211'
+	server = ['130.245.127.153:11211']
 
 
 	# client = HashClient(servers, connect_timeout = 100, timeout = 100, no_delay=True)
-	client = Client(server, connect_timeout=5, timeout=5, no_delay = True)
+	client = HashClient(server, connect_timeout=5, timeout=5, no_delay = True)
 	start_time = time.monotonic()
 	value = client.get(key)
 	end_time = time.monotonic()
@@ -68,9 +68,9 @@ def get_from_memcached_s3(key):
 def get_from_memcached_s4(key):
 	
 	# Define three Memcached servers with different ports
-	server = '130.245.127.132:11211'
+	server = ['130.245.127.132:11211']
 	# client = HashClient(servers, connect_timeout = 100, timeout = 100, no_delay=True)
-	client = Client(server, connect_timeout=5, timeout=5, no_delay = True)
+	client = HashClient(server, connect_timeout=5, timeout=5, no_delay = True)
 	start_time = time.monotonic()
 	value = client.get(key)
 	end_time = time.monotonic()
@@ -143,4 +143,4 @@ if __name__ == "__main__":
 						's3_time': s3_time, 's3_value': s3_value, 
 						's4_time': s4_time, 's4_value': s4_value})
 
-	df.to_csv("/home/pace-admin/memcache-scheduling/results/baseline_test_single_test_c1.csv", index=False)
+	df.to_csv("/home/pace-admin/memcache-scheduling/results/baseline_test_single_test_c1_hashclient.csv", index=False)
