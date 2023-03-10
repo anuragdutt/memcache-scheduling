@@ -80,7 +80,7 @@ if __name__ == "__main__":
 
 
 
-		max_threads = min(10, len(calls_sample))
+		max_threads = min(20, len(calls_sample))
 
 		timing_list = []
 		values = []
